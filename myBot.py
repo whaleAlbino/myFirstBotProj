@@ -30,14 +30,13 @@ def convert(message: telebot.types.Message):
             raise APIException('Неверное количество параметров')
 
         quote, base, amount = values
-        f_am = float(amount)
-        total_base = CurrencyConverter.get_price(quote, base, amount) * f_am
+        total_base = CurrencyConverter.get_price(quote, base, amount)
     except APIException as e:
         bot.reply_to(message, f'Ошибка пользователя.\n{e}')
     except Exception as e:
         bot.reply_to(message, f'Не удалось обработать команду\n{e}')
     else:
-        text = f'Цена {amount} {quote} в {base} = {round(total_base, 2)}'
+        text = f'Цена {amount} {quote} в {base} = {total_base}'
         bot.send_message(message.chat.id, text)
 
 
